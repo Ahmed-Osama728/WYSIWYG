@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { EditorState } from 'draft-js';
 import { WYSIWYGEditor } from './components/Editor';
 import './App.css';
@@ -8,6 +8,10 @@ function App() {
     EditorState.createEmpty()
   );
 
+  const handleEditorChange = (newState: SetStateAction<EditorState>) => {
+    setControlledState(newState);
+  };
+
   return (
     <div className="app-container">
       <h1 className="main-title">WYSIWYG Editor Demo</h1>
@@ -16,7 +20,7 @@ function App() {
         <h2 className="section-title">Controlled Editor</h2>
         <WYSIWYGEditor
           value={controlledState}
-          onChange={setControlledState}
+          onChange={handleEditorChange}
         />
       </section>
 
