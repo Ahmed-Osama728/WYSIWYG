@@ -59,6 +59,7 @@ export const WYSIWYGEditor: React.FC<WYSIWYGEditorProps> = ({
       {renderToolbar ? renderToolbar(toolbarProps) : <Toolbar {...toolbarProps} />}
       <div
         className="wysiwyg-editor__content"
+        data-testid="editor-container"
         onClick={() => {
           if (!editorState.getSelection().getHasFocus()) {
             setEditorState(EditorState.moveFocusToEnd(editorState));
