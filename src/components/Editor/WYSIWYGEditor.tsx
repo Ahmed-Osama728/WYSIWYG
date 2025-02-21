@@ -13,11 +13,12 @@ export const WYSIWYGEditor: React.FC<WYSIWYGEditorProps> = ({
   placeholder = 'Start typing...',
 }) => {
   const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
+    value ? value : EditorState.createEmpty()
   );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Simulate async loading behaviour for value prop
     const timer = setTimeout(() => {
       if (value) {
         setEditorState(value);
@@ -29,39 +30,43 @@ export const WYSIWYGEditor: React.FC<WYSIWYGEditorProps> = ({
   }, [value]);
 
   const handleChange = (newState: EditorState) => {
+    setEditorState(newState);
     if (onChange) {
       onChange(newState);
-    } else {
-      setEditorState(newState);
     }
   };
 
   const toggleInlineStyle = (inlineStyle: string) => {
-    const currentState = value || editorState;
-    handleChange(RichUtils.toggleInlineStyle(currentState, inlineStyle));
+    const updatedState = RichUtils.toggleInlineStyle(editorState, inlineStyle);
+    handleChange(updatedState);
   };
 
-  const hasInlineStyle = (inlineStyle: string) => {
-    const currentStyle = (value || editorState).getCurrentInlineStyle();
-    return currentStyle.has(inlineStyle);
+  const hasInlineStyle = (inlineStyle: string) =>
+    editorState.getCurrentInlineStyle().has(inlineStyle);
+
+  const toolbarProps = {
+    editorState,
+    onToggle: toggleInlineStyle,
+    hasStyle: hasInlineStyle,
   };
 
   if (loading) {
     return <div>Loading editor...</div>;
   }
 
-  const toolbarProps = {
-    editorState: value || editorState,
-    onToggle: toggleInlineStyle,
-    hasStyle: hasInlineStyle,
-  };
-
   return (
     <div className={`wysiwyg-editor ${className}`} style={style}>
       {renderToolbar ? renderToolbar(toolbarProps) : <Toolbar {...toolbarProps} />}
-      <div className="wysiwyg-editor__content">
+      <div
+        className="wysiwyg-editor__content"
+        onClick={() => {
+          if (!editorState.getSelection().getHasFocus()) {
+            setEditorState(EditorState.moveFocusToEnd(editorState));
+          }
+        }}
+      >
         <Editor
-          editorState={value || editorState}
+          editorState={editorState}
           onChange={handleChange}
           placeholder={placeholder}
           handleKeyCommand={(command, editorState) => {
