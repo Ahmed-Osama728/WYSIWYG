@@ -1,7 +1,7 @@
 const EditorState = {
   createEmpty: jest.fn(() => ({
     getCurrentInlineStyle: jest.fn(() => ({
-      has: jest.fn(() => false), // Mocking `has` method of `CurrentInlineStyle`
+      has: jest.fn(() => false), 
     })),
     getSelection: jest.fn(() => ({
       getHasFocus: jest.fn(() => false),
