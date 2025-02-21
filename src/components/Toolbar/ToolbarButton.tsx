@@ -9,6 +9,7 @@ export const ToolbarButton: React.FC<ToolbarButtonProps> = ({
 }) => (
   <button
     type="button"
+    aria-label={style}
     className={`toolbar-button ${active ? 'toolbar-button--active' : ''}`}
     onMouseDown={(e) => {
       e.preventDefault();
