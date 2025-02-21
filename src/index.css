@@ -1,0 +1,40 @@
+.wysiwyg-editor {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.wysiwyg-editor__content {
+  padding: 10px;
+}
+
+.toolbar {
+  margin-bottom: 10px;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  gap: 5px;
+}
+
+.toolbar-button {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background: white;
+  cursor: pointer;
+}
+
+.toolbar-button.active {
+  background: #e6e6e6;
+}
+
+.toolbar-button--bold.active {
+  font-weight: bold;
+}
+
+.toolbar-button--italic.active {
+  font-style: italic;
+}
+
+.toolbar-button--underline.active {
+  text-decoration: underline;
+}
